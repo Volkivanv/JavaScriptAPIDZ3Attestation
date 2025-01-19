@@ -72,6 +72,7 @@ async function loadPhoto() {
 
          
             photoContainer.append(divPhoto);
+            // навешиваем "лайк"
             likeButton.addEventListener('click', function (e) {
                 // body
                 likesCount++;
@@ -79,6 +80,8 @@ async function loadPhoto() {
                 this.textContent = `Вы уже лайкнули`;
                 this.setAttribute('disabled', '');
 
+                //Попытка реализовать лайк на самом unsplash
+                
                 // postData(`https://api.unsplash.com/photos/${idPhoto}/like?client_id=nzos-QT_ADALz265JpcHZ6QxIe1TKH6Cjtkq3rX7_-U`);
             });
           
