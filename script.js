@@ -1,7 +1,6 @@
-// Application ID 698760
-// Access Key: nzos-QT_ADALz265JpcHZ6QxIe1TKH6Cjtkq3rX7_-U
 
-// Secret key: QpmRm46dY1XWMzYheiQESEdWkBmanyJpfw1ypeXOBYQ
+// Access Key: e_2NtH6n3IqgMrL7sJC5bZvy4dgB89L7Kcc5zz8gQcg
+
 
 const photoContainer = document.getElementById("photo-container");
 
@@ -9,7 +8,7 @@ let page = 2;
 async function fetchRandomPhoto() {
     try {
         const response = await fetch(
-            `https://api.unsplash.com/photos/random?client_id=nzos-QT_ADALz265JpcHZ6QxIe1TKH6Cjtkq3rX7_-U`
+            `https://api.unsplash.com/photos/random?client_id=e_2NtH6n3IqgMrL7sJC5bZvy4dgB89L7Kcc5zz8gQcg`
         );
         const photos = await response.json();
         return photos;
@@ -49,15 +48,18 @@ async function loadPhoto() {
             const numberOfLikes = document.createElement('p');
 
             let likesCount = photo.likes;
-            numberOfLikes.textContent = `Количество лайков: ${likesCount}`;
+            
             const likeButton = document.createElement('button');
             likeButton.textContent = `Поставить лайк`;
 
-            // если лайкнуто то убираем возможность еще раз лайкнуть
-            if(photo.liked_by_user){
+            // если в локальном хранилище сохранилась информация лайкнуто, то убираем возможность еще раз лайкнуть
+            if(localStorage.getItem(idPhoto) === 'liked'){
                 likeButton.textContent = `Вы уже лайкнули`;
                 likeButton.setAttribute('disabled', '');
+                likesCount++;
             }
+
+            numberOfLikes.textContent = `Количество лайков: ${likesCount}`;
 
             //Все добавляем
             divPhoto.append(imgPhoto);
@@ -72,6 +74,8 @@ async function loadPhoto() {
 
          
             photoContainer.append(divPhoto);
+
+            
             // навешиваем "лайк"
             likeButton.addEventListener('click', function (e) {
                 // body
@@ -79,6 +83,8 @@ async function loadPhoto() {
                 numberOfLikes.textContent = `Количество лайков: ${likesCount}`;
                 this.textContent = `Вы уже лайкнули`;
                 this.setAttribute('disabled', '');
+
+                localStorage.setItem(idPhoto, 'liked')
 
                 //Попытка реализовать лайк на самом unsplash
                 
